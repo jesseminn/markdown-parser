@@ -7,6 +7,7 @@ const mergeClassNames = (a: Maybe<ClassName[]>, b: Maybe<ClassName[]>) => {
 
 export const flattenParsedText = (input: ParsedText, parent?: ParsedText): ParsedTextList => {
     if (typeof input.content === 'string') {
+        // Copy/merge classNames & url from parent
         const classNames = mergeClassNames(input.classNames, parent && parent.classNames);
         const url = input.url || (parent ? parent.url : undefined);
 

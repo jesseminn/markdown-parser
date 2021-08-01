@@ -5,7 +5,7 @@
         "build": "cross-env TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack",
         "watch": "npm run build -- --watch",
         "serve": "npm run build -- serve --open",
-        "test": "jest --watch ./src"
+        "test": "jest --watch --coverage ./src"
     },
     "author": "jesseminn@gmail.com",
     "license": "ISC",

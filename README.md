@@ -1,34 +1,97 @@
-# TypeScript workbench
+# Markdown parser
 
-A starting point for TypeScript projects
+A markdown parser which returns a plain, language-agnostic syntax tree.
 
-## Implementations
+## Usage
 
--   Minimal Webpack & Jest config
--   Opinionated TypeScript config
--   Support TypeScript `paths`
+```ts
+const markdown = `*JavaScript*, often abbreviated as **JS**, is a ***programming language*** that conforms to the [ECMAScript specification](https://en.wikipedia.org/wiki/ECMAScript). Reference: [*Wikipedia*](https://en.wikipedia.org/wiki/JavaScript)`;
 
-## How to use
-
-### As a starting point
-
-```sh
-mkdir my-project
-cd my-project
-# clone content into current directory
-git clone https://github.com/jesseminn/ts-workbench.git .
-# optional, remove history
-rm -rf .git
-git remote add origin <github-repo-url>
+const parsed = parseMarkdown(markdown);
 ```
 
-### Integrate existing project
+The parsed result is a flattened array of object:
 
-```sh
-git remote add ts-workbench https://github.com/jesseminn/ts-workbench.git
-git fetch ts-workbench
-git merge ts-workbench/master --squash --allow-unrelated-histories
-# After solving conflicts
-git commit -m"Integrated ts-workbench"
-npm i
+```ts
+const parsed: ParsedTextList = [
+    {
+        content: 'JavaScript',
+        classNames: [ClassName.EMPHASIS],
+        url: undefined,
+    },
+    {
+        content: ', often abbreviated as ',
+        classNames: [],
+        url: undefined,
+    },
+    {
+        content: 'JS',
+        classNames: [ClassName.STRONG],
+        url: undefined,
+    },
+    {
+        content: ', is a ',
+        classNames: [],
+        url: undefined,
+    },
+    {
+        content: 'programming language',
+        classNames: [ClassName.EMPHASIS, ClassName.STRONG],
+        url: undefined,
+    },
+    {
+        content: ' that conforms to the ',
+        classNames: [],
+        url: undefined,
+    },
+    {
+        content: 'ECMAScript specification',
+        classNames: [ClassName.URL],
+        url: 'https://en.wikipedia.org/wiki/ECMAScript',
+    },
+    {
+        content: '. Reference: ',
+        classNames: [],
+        url: undefined,
+    },
+    {
+        content: 'Wikipedia',
+        classNames: [ClassName.EMPHASIS, ClassName.URL],
+        url: 'https://en.wikipedia.org/wiki/JavaScript',
+    },
+];
+```
+
+You can wrote a simple mapping function to map the parsed result to the format you want, e.g. to HTML:
+
+```ts
+import { parseMarkdown } from 'markdown-parser';
+
+export const mapMarkdownToHTMLElement = (markdown: string) => {
+    const parsed = parseMarkdown(markdown);
+
+    const p = document.createElement('p');
+
+    parsed.forEach(parsedText => {
+        const elementName = typeof parsedText.url === 'string' && parsedText.url.length > 0 ? 'a' : 'span';
+        const element = document.createElement(elementName);
+
+        element.innerText = parsedText.content as string;
+        if (elementName === 'a') {
+            element.setAttribute('href', parsedText.url || '');
+        }
+
+        if (Array.isArray(parsedText.classNames)) {
+            element.classList.add(...parsedText.classNames);
+        }
+
+        p.append(element);
+    });
+
+    return p;
+};
+
+const markdownElement = mapMarkdownToHTMLElement(text);
+
+document.body.append(markdownElement);
 ```
