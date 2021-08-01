@@ -1,4 +1,4 @@
-import { parseMarkdown } from './parse-markdown';
+import { parseMarkdown } from 'markdown-parser';
 
 export const mapMarkdownToHTMLElement = (markdown: string) => {
     const parsed = parseMarkdown(markdown);
