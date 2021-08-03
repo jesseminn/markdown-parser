@@ -27,5 +27,6 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "skipLibCheck": true
-    }
+    },
+    "exclude": ["dist", "coverage"]
 }
