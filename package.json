@@ -6,7 +6,8 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "jest --watch --coverage ./src",
-        "postinstall": "tsc --declaration --outDir ./dist"
+        "build": "tsc --declaration --outDir ./dist",
+        "postinstall": "npm run build"
     },
     "author": "jesseminn@gmail.com",
     "license": "ISC",
@@ -25,8 +26,5 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
-    },
-    "files": [
-        "dist/**/*"
-    ]
+    }
 }
