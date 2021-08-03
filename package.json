@@ -2,9 +2,11 @@
     "name": "markdown-parser",
     "version": "0.0.1",
     "description": "",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
-        "test": "jest --watch --coverage ./src"
+        "test": "jest --watch --coverage ./src",
+        "postinstall": "tsc --declaration --outDir ./dist"
     },
     "author": "jesseminn@gmail.com",
     "license": "ISC",
@@ -23,5 +25,8 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
-    }
+    },
+    "files": [
+        "dist/**/*"
+    ]
 }
