@@ -5,7 +5,8 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "jest --watch --coverage ./src",
+        "test:watch": "jest --watch --coverage ./src",
+        "test": "jest ./src",
         "build": "tsc",
         "prepare": "npm run build"
     },
